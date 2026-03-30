@@ -1,23 +1,32 @@
-# 🛵 boltcli — Bolt Food v terminálu
+# boltcli ⚡🍔
 
-Go CLI nástroj pro správu Bolt Food objednávek z příkazové řádky.
-API reverse-engineerováno pomocí mitmproxy.
+> Control your **Bolt Food** orders straight from the terminal.
 
-## Funkce
+```
+$ boltcli history
+289516420   New York Burger and Chicken KV   delivered   2026-02-20 20:04
+287858187   New York Burger and Chicken KV   delivered   2026-02-12 21:20
+247050348   KFC Karlovy Vary DT              delivered   2025-07-13 18:16
+246490802   McDonald's Dolní Kamenná KV      delivered   2025-07-10 18:59
+```
 
-- `login` — přihlášení přes telefon + SMS OTP
-- `history` — seznam minulých objednávek
-- `orders` — aktivní objednávky
-- `order` — detail konkrétní objednávky
-- `logout` — odhlášení
+---
 
-## Instalace
+## ✨ Features
 
-### Požadavky
+| Command | Description |
+|---------|-------------|
+| `login` | 📱 Sign in via phone number + SMS OTP |
+| `history` | 📜 Browse your past orders |
+| `orders` | 🔴 See active / in-progress orders |
+| `order <id>` | 🧾 Full details of a specific order |
+| `logout` | 👋 Clear stored credentials |
 
-- [Go 1.21+](https://go.dev/dl/)
+---
 
-### Build
+## 📦 Installation
+
+Requires [Go 1.21+](https://go.dev/dl/)
 
 ```sh
 git clone https://github.com/Lukynnnn/boltcli.git
@@ -25,49 +34,61 @@ cd boltcli
 go build -o boltcli .
 ```
 
-## Použití
-
-### Přihlášení
+Optionally move to your PATH:
 
 ```sh
-./boltcli login --phone +420XXXXXXXXX
+mv boltcli /usr/local/bin/
 ```
 
-Zadej SMS kód a jsi přihlášen. Token se uloží do `~/.config/boltcli/config.json`.
+---
 
-### Historie objednávek
+## 🚀 Quick Start
 
+**1. Login**
 ```sh
-./boltcli history
-./boltcli history --limit 50
+boltcli login --phone +420XXXXXXXXX
+# Enter the SMS code when prompted
 ```
 
-### Detail objednávky
-
+**2. View order history**
 ```sh
-./boltcli order 289516420
+boltcli history
+boltcli history --limit 50
 ```
 
-### Aktivní objednávky
-
+**3. Check order details**
 ```sh
-./boltcli orders
+boltcli order 289516420
 ```
 
-### Odhlášení
-
+**4. Active orders**
 ```sh
-./boltcli logout
+boltcli orders
 ```
 
-## Jak to funguje
+---
 
-Bolt Food používá REST API na `https://deliveryuser.live.boltsvc.net`.
-Autentizace probíhá přes SMS OTP — žádný OAuth, žádný client secret.
-Token se ukládá lokálně a posílá jako `Authorization: Bearer <token>`.
+## 🔧 How It Works
 
-## Poznámky
+Bolt Food uses a private REST API at `https://deliveryuser.live.boltsvc.net`.
+Auth is SMS OTP only — no OAuth dance, no client secrets needed.
+After login, your `access_token` is saved locally and sent as a Bearer token on every request.
 
-- Testováno na Bolt Food CZ (Karlovy Vary)
-- Nevyžaduje žádné API klíče ani registraci vývojáře
-- Token z přihlášení vydrží dlouho (JWT s dlouhou expirací)
+> Reverse-engineered via [mitmproxy](https://mitmproxy.org/) 🕵️
+
+---
+
+## 📁 Config
+
+Credentials are stored at:
+
+```
+~/.config/boltcli/config.json   # Linux
+~/Library/Application Support/boltcli/config.json   # macOS
+```
+
+---
+
+## 📄 License
+
+MIT © [Lukáš Molčan](https://github.com/Lukynnnn)
